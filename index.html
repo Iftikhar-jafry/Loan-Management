@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Loan Management</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+</head>
+<body>
+    <div id="auth-section" class="auth-section">
+        <div id="auth-forms">
+            <h2>Welcome to Your Loan Manager</h2>
+            <input type="email" id="auth-email" placeholder="Email">
+            <input type="password" id="auth-password" placeholder="Password">
+            <button id="login-btn">Login</button>
+            <button id="signup-btn">Sign Up</button>
+            <p id="auth-error" class="error-message"></p>
+        </div>
+        <div id="user-info" style="display: none;">
+            <p>Logged in as: <span id="user-display-email"></span></p>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </div>
+
+    <div id="app-container" style="display: none;">
+        <div class="container">
+            <aside class="sidebar">
+                <h2>Persons</h2>
+                <ul id="person-list">
+                    </ul>
+                <button id="add-new-person-btn">Add New Person</button>
+            </aside>
+
+            <main class="content">
+                <h2 id="content-heading">All Transactions</h2>
+                <div id="transaction-details">
+                    </div>
+                <div id="person-summary" style="display: none;">
+                    <h3 id="current-person-name"></h3>
+                    <table id="person-transactions-table">
+                        <thead>
+                            <tr>
+                                <th>Amount</th>
+                                <th>Purpose</th>
+                                <th>Type</th>
+                                <th>Method</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                    <p>Total: <span id="person-total"></span></p>
+                    <button id="reset-person-btn">Clear All Transactions for this Person</button>
+                </div>
+            </main>
+        </div>
+    </div>
+    <div id="add-person-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Add New Person</h2>
+            <input type="text" id="new-person-name" placeholder="Enter person name">
+            <button id="save-new-person-btn">Add Person</button>
+        </div>
+    </div>
+
+    <div id="add-transaction-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Add New Transaction</h2>
+            <form id="transaction-form">
+                <label for="transaction-person-name">Person Name:</label>
+                <select id="transaction-person-name" required>
+                    </select>
+
+                <label for="transaction-date">Date:</label>
+                <input type="date" id="transaction-date" required>
+
+                <label for="transaction-amount">Amount:</label>
+                <input type="number" id="transaction-amount" step="0.01" required>
+
+                <label>Type:</label>
+                <input type="radio" id="type-loan" name="transaction-type" value="Loan" checked>
+                <label for="type-loan">Loan</label>
+                <input type="radio" id="type-return" name="transaction-type" value="Return">
+                <label for="type-return">Return</label>
+
+                <label for="transaction-purpose">Purpose:</label>
+                <textarea id="transaction-purpose" rows="3"></textarea>
+
+                <label>Method:</label>
+                <input type="radio" id="method-online" name="transaction-method" value="Online" checked>
+                <label for="method-online">Online</label>
+                <input type="radio" id="method-cash" name="transaction-method" value="Cash">
+                <label for="method-cash">Cash</label>
+
+                <button type="submit">Add Transaction</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

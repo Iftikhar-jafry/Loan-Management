@@ -1,0 +1,335 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to the top */
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-right: 1px solid #eee;
+}
+
+.sidebar h2 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+#person-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#person-list li {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
+}
+
+#person-list li:hover {
+    background-color: #e9e9e9;
+}
+
+#person-list li.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+#add-new-person-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#add-new-person-btn:hover {
+    background-color: #218838;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.content h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* General Transaction Display (for "All" transactions) */
+.transaction-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.transaction-item p {
+    margin: 5px 0;
+}
+
+.transaction-item strong {
+    color: #555;
+}
+
+/* Person-specific Transaction Table */
+#person-transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#person-transactions-table th,
+#person-transactions-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+#person-transactions-table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+#person-summary {
+    margin-top: 20px;
+}
+
+#person-summary h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+#person-total {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.total-positive {
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Dark green */
+}
+
+.total-negative {
+    background-color: #f8d7da; /* Light red */
+    color: #721c24; /* Dark red */
+}
+
+#reset-person-btn {
+    padding: 10px 15px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+#reset-person-btn:hover {
+    background-color: #c82333;
+}
+
+/* Modals */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="number"],
+.modal-content input[type="date"],
+.modal-content select,
+.modal-content textarea {
+    width: calc(100% - 22px); /* Adjust for padding and border */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.modal-content label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.modal-content input[type="radio"] {
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
+.modal-content button[type="submit"],
+.modal-content button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+    background-color: #0056b3;
+}
+
+/* Specific styling for the 'Add Transaction' button on the main content area */
+#add-transaction-main-btn {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+#add-transaction-main-btn:hover {
+    background-color: #0056b3;
+}
+
+
+
+/* ... existing styles ... */
+
+.auth-section {
+    background-color: #e6f2ff; /* Light blue background */
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+}
+
+#auth-forms h2 { /* Changed from #login-form h2 */
+    color: #0056b3;
+    margin-top: 0;
+}
+
+#auth-forms input[type="email"], /* Changed from #login-form input */
+#auth-forms input[type="password"] { /* Changed from #login-form input */
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #a3d4ff;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#login-btn, #signup-btn, #logout-btn { /* Added #signup-btn */
+    padding: 10px 15px; /* Slightly adjusted padding */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin: 5px; /* Added margin for buttons */
+}
+
+#login-btn:hover, #signup-btn:hover, #logout-btn:hover { /* Added #signup-btn */
+    background-color: #0056b3;
+}
+
+#user-info p {
+    margin: 0;
+    font-size: 1.1em;
+    color: #333;
+}
+
+#user-display-email {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.error-message { /* Unified error message class */
+    margin-top: 10px;
+    font-weight: bold;
+    color: red;
+}
