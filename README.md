@@ -1,8 +1,6 @@
 # loanManagement
 # Personal Loan Management System
 
-The **Personal Loan Management System** is a web-based application designed to help users efficiently manage personal loans and financial transactions. The system includes features for user authentication, managing persons, adding and tracking transactions, and generating summaries. It utilizes **Firebase** for backend services, including authentication and Firestore for database management.
-
 ---
 
 ## Features
