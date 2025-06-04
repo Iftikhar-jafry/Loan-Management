@@ -1,4 +1,3 @@
-# loanManagement
 # Personal Loan Management System
 
 ---
