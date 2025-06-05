@@ -6,19 +6,20 @@ body {
     background-color: #e9ecef; /* Lighter grey background */
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: flex-start; /* Changed to flex-start for overall content alignment */
     min-height: 100vh;
     color: #343a40; /* Darker text color */
 }
-.app-container{
-    width: 1200px;;
-    /* min-width:1300px ; */
+
+.app-container {
+    width: 1200px;
+    /* min-width:1300px ; */ /* Keep this commented out for responsiveness */
 }
 
 .container {
     display: flex;
-    width: 100%;
-    /* min-width: 1300px; Slightly wider max-width */
+    width: 100%; /* Ensure container takes full width of its parent */
+    max-width: 1200px; /* Set a max-width for larger screens */
     background-color: #ffffff;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     margin-top: 30px;
@@ -30,6 +31,7 @@ body {
 /* Sidebar Styling */
 .sidebar {
     width: 280px;
+    flex-shrink: 0; /* Prevent sidebar from shrinking below its width */
     background-color: #f8f9fa; /* Lighter sidebar background */
     padding: 25px;
     border-right: 1px solid #dee2e6;
@@ -101,7 +103,6 @@ body {
     transform: translateY(-2px);
 }
 
-
 #logout-btn {
     width: 100%;
     padding: 12px;
@@ -120,20 +121,22 @@ body {
     transform: translateY(-2px);
 }
 
-
-
 /* Content Area Styling */
 .content {
     flex-grow: 1;
     padding: 25px;
     background-color: #ffffff;
-    width: 800px;
+    width: 800px; /* This is a fixed width, will be adjusted in media queries */
+    min-width: 0; /* Allow content to shrink below its preferred width */
 }
-.content-header{
-    display: flex;                 /* Aligns children in a row */
-    justify-content: space-between;  /* Pushes children to opposite ends */
-    align-items: center;           /* Vertically aligns them in the middle */
-    margin-bottom: 20px;   
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    gap: 10px; /* Space between wrapped items */
 }
 
 .content h2 {
@@ -144,6 +147,7 @@ body {
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
 }
+
 .content h3 {
     margin-bottom: 25px;
     font-size: 1rem;
@@ -177,21 +181,29 @@ body {
 }
 
 /* Person-specific Transaction Table */
-#person-transactions-table {
+#person-transactions-table,
+#transaction-table { /* Combined for common table styling */
     width: 100%;
     border-collapse: collapse;
     margin-top: 25px;
     font-size: 0.95rem;
+    display: block; /* Make table scrollable on small screens if needed */
+    overflow-x: auto; /* Enable horizontal scrolling for tables */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 #person-transactions-table th,
-#person-transactions-table td {
+#person-transactions-table td,
+#transaction-table th,
+#transaction-table td {
     border: 1px solid #dee2e6;
     padding: 12px;
     text-align: left;
+    white-space: nowrap; /* Prevent text wrapping in table cells by default */
 }
 
-#person-transactions-table th {
+#person-transactions-table th,
+#transaction-table th {
     background-color: #e9ecef;
     color: #495057;
     font-weight: 600;
@@ -200,33 +212,8 @@ body {
     z-index: 1;
 }
 
-
-/* All Transaction Table */
-#transaction-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 25px;
-    font-size: 0.95rem;
-}
-
-#transaction-table  th,
-#transaction-table  td {
-    border: 1px solid #dee2e6;
-    padding: 12px;
-    text-align: left;
-}
-
-#transaction-table  th {
-    background-color: #e9ecef;
-    color: #495057;
-    font-weight: 600;
-    position: sticky;
-    top: 0;
-    z-index: 1;
-}
-
-
-#person-summary ,.transaction-details {
+#person-summary,
+.transaction-details {
     margin-top: 30px;
     padding: 20px;
     background-color: #f8f9fa;
@@ -240,7 +227,8 @@ body {
     font-size: 1.7rem;
 }
 
-#person-total , .balance-amount {
+#person-total,
+.balance-amount {
     font-weight: bold;
     padding: 8px 15px;
     border-radius: 50px; /* Pill shape */
@@ -287,7 +275,7 @@ body {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.5); /* Slightly darker overlay */
+    background-color: rgba(0, 0, 0, 0.5); /* Slightly darker overlay */
     justify-content: center;
     align-items: center;
     padding: 20px; /* Padding for smaller screens */
@@ -302,13 +290,19 @@ body {
     width: 95%; /* Increased width for better responsiveness */
     max-width: 550px; /* Slightly increased max-width */
     position: relative;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
     animation: fadeIn 0.3s ease-out; /* Simple fade-in animation */
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .close-button {
@@ -362,7 +356,6 @@ body {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-
 .modal-content label {
     display: block;
     margin-bottom: 8px;
@@ -377,7 +370,8 @@ body {
 }
 
 .modal-content button[type="submit"],
-.modal-content #save-new-person-btn { /* Combined buttons */
+.modal-content #save-new-person-btn {
+    /* Combined buttons */
     padding: 12px 25px;
     background-color: #007bff;
     color: white;
@@ -422,7 +416,7 @@ body {
     background-color: #ffffff;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     margin-top: 50px; /* Centered on the page more visually */
     text-align: center;
     width: 90%;
@@ -456,7 +450,8 @@ body {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-#login-btn, #signup-btn {
+#login-btn,
+#signup-btn {
     padding: 12px 25px;
     background-color: #007bff;
     color: white;
@@ -469,8 +464,8 @@ body {
     margin: 8px; /* More spacing between buttons */
 }
 
-
-#login-btn:hover, #signup-btn:hover {
+#login-btn:hover,
+#signup-btn:hover {
     background-color: #0056b3;
     transform: translateY(-2px);
 }
@@ -499,20 +494,41 @@ body {
 }
 
 @keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-    100% { transform: translateX(0); }
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
 }
 
 /* Responsive Adjustments */
-@media (max-width: 700px) {
+
+/* Tablet and Larger Mobile Devices (up to 768px, which covers your 720px device) */
+@media (max-width: 768px) {
+    body {
+        align-items: stretch; /* Stretch body content to fill height */
+    }
+
+    .app-container {
+        width: 100%; /* Take full width of the viewport */
+    }
+
     .container {
         flex-direction: column;
         margin-top: 0;
         border-radius: 0;
         min-height: 100vh;
+        box-shadow: none; /* Remove shadow on full-screen mobile */
     }
 
     .sidebar {
@@ -520,10 +536,28 @@ body {
         border-right: none;
         border-bottom: 1px solid #dee2e6;
         padding-bottom: 15px;
+        order: -1; /* Place sidebar at the top on small screens */
     }
 
     .content {
         padding: 15px;
+        width: auto; /* Allow content to take available width */
+        flex-basis: auto; /* Reset flex basis */
+    }
+
+    .content-header {
+        flex-direction: column; /* Stack header items */
+        align-items: flex-start;
+    }
+
+    .content h2 {
+        font-size: 1.7rem; /* Slightly smaller heading */
+        margin-bottom: 15px;
+    }
+
+    #add-transaction-main-btn {
+        width: 100%; /* Make button full width */
+        margin-top: 15px; /* Adjust margin */
     }
 
     #person-list li {
@@ -531,9 +565,23 @@ body {
         padding: 10px 15px;
     }
 
+    #person-transactions-table,
+    #transaction-table {
+        font-size: 0.85rem; /* Smaller font size for tables */
+        white-space: normal; /* Allow text to wrap in cells */
+    }
+
+    #person-transactions-table th,
+    #person-transactions-table td,
+    #transaction-table th,
+    #transaction-table td {
+        padding: 8px; /* Reduce padding in table cells */
+    }
+
     .modal-content {
         width: 98%;
         padding: 20px;
+        margin-top: 20px; /* Push down slightly from top */
     }
 
     #auth-forms input[type="email"],
@@ -541,23 +589,127 @@ body {
         padding: 10px;
     }
 
-    #login-btn, #signup-btn {
+    #login-btn,
+    #signup-btn {
         width: 100%;
         margin: 5px 0;
     }
 
     #transaction-details .transaction-item p {
         flex: 1 1 100%; /* Stack items on small screens */
+        min-width: unset; /* Remove min-width constraint */
+    }
+
+    .auth-section {
+        margin-top: 20px;
+        width: 100%; /* Take full width of parent */
+        max-width: none; /* Remove max-width constraint */
+        box-shadow: none; /* Remove shadow on full-screen mobile */
     }
 }
 
-/* Utility classes (Bootstrap-like) */
-.d-flex { display: flex; }
-.justify-content-center { justify-content: center; }
-.align-items-center { align-items: center; }
-.mt-3 { margin-top: 1rem; }
-.mb-3 { margin-bottom: 1rem; }
-.p-3 { padding: 1rem; }
-.text-center { text-align: center; }
-.w-100 { width: 100%; }
-.form-group { margin-bottom: 1rem; } /* For labels and inputs */
+/* Extra Small Mobile Devices (e.g., iPhone 5/SE, smaller Androids - up to 480px) */
+@media (max-width: 480px) {
+    .sidebar {
+        padding: 15px; /* Reduce sidebar padding */
+    }
+
+    .sidebar h2 {
+        font-size: 1.5rem;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+
+    #person-list li {
+        padding: 8px 12px; /* Further reduce list item padding */
+        font-size: 0.9rem;
+    }
+
+    #add-new-person-btn,
+    #logout-btn {
+        padding: 10px;
+        font-size: 1rem;
+    }
+
+    .content {
+        padding: 10px; /* Reduce content area padding */
+    }
+
+    .content h2 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    #transaction-details .transaction-item {
+        padding: 12px; /* Smaller padding for transaction items */
+    }
+
+    #person-summary,
+    .transaction-details {
+        padding: 15px; /* Smaller padding for summary boxes */
+    }
+
+    #person-total,
+    .balance-amount {
+        font-size: 1rem;
+        padding: 6px 12px;
+    }
+
+    #reset-person-btn,
+    #add-transaction-main-btn {
+        padding: 10px 15px;
+        font-size: 1rem;
+    }
+
+    .modal-content {
+        padding: 15px; /* Smaller modal padding */
+    }
+
+    .modal-content h2 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    .modal-content input,
+    .modal-content select,
+    .modal-content textarea {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .modal-content button[type="submit"],
+    .modal-content #save-new-person-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+
+/* Utility classes (Bootstrap-like) - Keep these as they are helpful */
+.d-flex {
+    display: flex;
+}
+.justify-content-center {
+    justify-content: center;
+}
+.align-items-center {
+    align-items: center;
+}
+.mt-3 {
+    margin-top: 1rem;
+}
+.mb-3 {
+    margin-bottom: 1rem;
+}
+.p-3 {
+    padding: 1rem;
+}
+.text-center {
+    text-align: center;
+}
+.w-100 {
+    width: 100%;
+}
+.form-group {
+    margin-bottom: 1rem;
+} /* For labels and inputs */
