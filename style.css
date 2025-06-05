@@ -1,141 +1,253 @@
+/* General Body and Container */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #e9ecef; /* Lighter grey background */
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Align to the top */
+    align-items: flex-start;
     min-height: 100vh;
+    color: #343a40; /* Darker text color */
+}
+.app-container{
+    width: 1200px;;
+    /* min-width:1300px ; */
 }
 
 .container {
     display: flex;
-    width: 90%;
-    max-width: 1200px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    border-radius: 8px;
+    width: 100%;
+    /* min-width: 1300px; Slightly wider max-width */
+    background-color: #ffffff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    border-radius: 10px;
     overflow: hidden;
+    min-height: 80vh; /* Ensure container has a minimum height */
 }
 
+/* Sidebar Styling */
 .sidebar {
-    width: 250px;
-    background-color: #f8f8f8;
-    padding: 20px;
-    border-right: 1px solid #eee;
+    width: 280px;
+    background-color: #f8f9fa; /* Lighter sidebar background */
+    padding: 25px;
+    border-right: 1px solid #dee2e6;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar h2 {
     margin-top: 0;
-    color: #333;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+    color: #007bff; /* Primary blue for headings */
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    font-weight: 600;
 }
 
 #person-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    flex-grow: 1; /* Allows list to take available space */
 }
 
 #person-list li {
-    padding: 10px 15px;
+    padding: 12px 18px;
     cursor: pointer;
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.3s ease;
+    border-bottom: 1px solid #e9ecef;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+#person-list li:last-child {
+    border-bottom: none;
 }
 
 #person-list li:hover {
-    background-color: #e9e9e9;
+    background-color: #e2e6ea;
+    transform: translateX(3px); /* Subtle hover effect */
 }
 
 #person-list li.active {
     background-color: #007bff;
     color: white;
     font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
 }
 
 #add-new-person-btn {
     width: 100%;
-    padding: 10px;
-    background-color: #28a745;
+    padding: 12px;
+    background-color: #28a745; /* Success green */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 20px;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+    margin-top: 25px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #add-new-person-btn:hover {
     background-color: #218838;
+    transform: translateY(-2px);
 }
 
+
+#logout-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #5a6268; /* Success green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 25px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#logout-btn:hover {
+    transform: translateY(-2px);
+}
+
+
+
+/* Content Area Styling */
 .content {
     flex-grow: 1;
-    padding: 20px;
+    padding: 25px;
+    background-color: #ffffff;
+    width: 800px;
+}
+.content-header{
+    display: flex;                 /* Aligns children in a row */
+    justify-content: space-between;  /* Pushes children to opposite ends */
+    align-items: center;           /* Vertically aligns them in the middle */
+    margin-bottom: 20px;   
 }
 
 .content h2 {
-    color: #333;
-    margin-bottom: 20px;
+    color: #007bff;
+    margin-bottom: 25px;
+    font-size: 2rem;
+    font-weight: 600;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+.content h3 {
+    margin-bottom: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
 }
 
 /* General Transaction Display (for "All" transactions) */
-.transaction-item {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
+#transaction-details .transaction-item {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    padding: 18px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
 }
 
-.transaction-item p {
-    margin: 5px 0;
+#transaction-details .transaction-item p {
+    margin: 0;
+    flex: 1 1 calc(33% - 20px); /* Approx 3 items per row */
+    min-width: 150px; /* Minimum width before wrapping */
 }
 
-.transaction-item strong {
-    color: #555;
+#transaction-details .transaction-item strong {
+    color: #495057;
 }
 
 /* Person-specific Transaction Table */
 #person-transactions-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 25px;
+    font-size: 0.95rem;
 }
 
 #person-transactions-table th,
 #person-transactions-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
+    border: 1px solid #dee2e6;
+    padding: 12px;
     text-align: left;
 }
 
 #person-transactions-table th {
-    background-color: #f2f2f2;
-    color: #333;
+    background-color: #e9ecef;
+    color: #495057;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
-#person-summary {
-    margin-top: 20px;
+
+/* All Transaction Table */
+#transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    font-size: 0.95rem;
+}
+
+#transaction-table  th,
+#transaction-table  td {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    text-align: left;
+}
+
+#transaction-table  th {
+    background-color: #e9ecef;
+    color: #495057;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+
+#person-summary ,.transaction-details {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
 }
 
 #person-summary h3 {
-    color: #333;
+    color: #007bff;
     margin-bottom: 15px;
+    font-size: 1.7rem;
 }
 
-#person-total {
+#person-total , .balance-amount {
     font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 5px;
+    padding: 8px 15px;
+    border-radius: 50px; /* Pill shape */
     display: inline-block;
-    margin-top: 10px;
+    margin-top: 15px;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .total-positive {
@@ -149,68 +261,80 @@ body {
 }
 
 #reset-person-btn {
-    padding: 10px 15px;
-    background-color: #dc3545;
+    padding: 12px 20px;
+    background-color: #dc3545; /* Danger red */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 15px;
-    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    font-size: 1.05rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #reset-person-btn:hover {
     background-color: #c82333;
+    transform: translateY(-2px);
 }
 
 /* Modals */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: none;
+    position: fixed;
+    z-index: 1050; /* Bootstrap's modal-backdrop default is 1040 */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5); /* Slightly darker overlay */
     justify-content: center;
     align-items: center;
+    padding: 20px; /* Padding for smaller screens */
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: #ffffff;
     margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 8px;
+    padding: 30px;
+    border: none; /* Removed default border */
+    border-radius: 10px;
+    width: 95%; /* Increased width for better responsiveness */
+    max-width: 550px; /* Slightly increased max-width */
     position: relative;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    animation: fadeIn 0.3s ease-out; /* Simple fade-in animation */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .close-button {
-    color: #aaa;
+    color: #6c757d; /* Grey close button */
     float: right;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: bold;
     position: absolute;
-    top: 10px;
-    right: 20px;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+    transition: color 0.2s ease;
 }
 
 .close-button:hover,
 .close-button:focus {
-    color: black;
+    color: #343a40;
     text-decoration: none;
-    cursor: pointer;
 }
 
 .modal-content h2 {
     margin-top: 0;
-    margin-bottom: 20px;
-    color: #333;
+    margin-bottom: 25px;
+    color: #007bff;
+    font-size: 1.8rem;
+    font-weight: 600;
 }
 
 .modal-content input[type="text"],
@@ -218,109 +342,144 @@ body {
 .modal-content input[type="date"],
 .modal-content select,
 .modal-content textarea {
-    width: calc(100% - 22px); /* Adjust for padding and border */
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
+
+.modal-content input[type="text"]:focus,
+.modal-content input[type="number"]:focus,
+.modal-content input[type="date"]:focus,
+.modal-content select:focus,
+.modal-content textarea:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
 
 .modal-content label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #495057;
 }
 
 .modal-content input[type="radio"] {
-    margin-right: 5px;
-    margin-left: 10px;
+    margin-right: 8px;
+    margin-left: 0; /* Remove default margin left */
+    vertical-align: middle; /* Align radio buttons with labels */
 }
 
 .modal-content button[type="submit"],
-.modal-content button {
-    padding: 10px 20px;
+.modal-content #save-new-person-btn { /* Combined buttons */
+    padding: 12px 25px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: auto; /* Allow buttons to size naturally */
+    display: inline-block; /* For potential multiple buttons in a row */
+    margin-top: 10px;
 }
 
-.modal-content button:hover {
+.modal-content button[type="submit"]:hover,
+.modal-content #save-new-person-btn:hover {
     background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 /* Specific styling for the 'Add Transaction' button on the main content area */
 #add-transaction-main-btn {
-    padding: 10px 15px;
+    padding: 12px 20px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-top: 30px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #add-transaction-main-btn:hover {
     background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
-
-
-/* ... existing styles ... */
-
+/* Authentication Section */
 .auth-section {
-    background-color: #e6f2ff; /* Light blue background */
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-top: 50px; /* Centered on the page more visually */
     text-align: center;
     width: 90%;
-    max-width: 400px;
+    max-width: 450px; /* Slightly wider */
 }
 
-#auth-forms h2 { /* Changed from #login-form h2 */
-    color: #0056b3;
+#auth-forms h2 {
+    color: #007bff;
     margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 2rem;
+    font-weight: 600;
 }
 
-#auth-forms input[type="email"], /* Changed from #login-form input */
-#auth-forms input[type="password"] { /* Changed from #login-form input */
-    width: calc(100% - 22px);
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #a3d4ff;
-    border-radius: 4px;
+#auth-forms input[type="email"],
+#auth-forms input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
     box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-#login-btn, #signup-btn, #logout-btn { /* Added #signup-btn */
-    padding: 10px 15px; /* Slightly adjusted padding */
+#auth-forms input[type="email"]:focus,
+#auth-forms input[type="password"]:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+#login-btn, #signup-btn {
+    padding: 12px 25px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    margin: 5px; /* Added margin for buttons */
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 8px; /* More spacing between buttons */
 }
 
-#login-btn:hover, #signup-btn:hover, #logout-btn:hover { /* Added #signup-btn */
+
+#login-btn:hover, #signup-btn:hover {
     background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 #user-info p {
     margin: 0;
-    font-size: 1.1em;
-    color: #333;
+    font-size: 1.15em;
+    color: #495057;
+    margin-bottom: 15px;
 }
 
 #user-display-email {
@@ -328,8 +487,77 @@ body {
     color: #007bff;
 }
 
-.error-message { /* Unified error message class */
-    margin-top: 10px;
+.error-message {
+    margin-top: 15px;
     font-weight: bold;
-    color: red;
+    color: #dc3545; /* Bootstrap danger red */
+    background-color: #f8d7da; /* Light red background */
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+    animation: shake 0.3s ease-in-out; /* Subtle shake on error */
 }
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        margin-top: 0;
+        border-radius: 0;
+        min-height: 100vh;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #dee2e6;
+        padding-bottom: 15px;
+    }
+
+    .content {
+        padding: 15px;
+    }
+
+    #person-list li {
+        font-size: 1rem;
+        padding: 10px 15px;
+    }
+
+    .modal-content {
+        width: 98%;
+        padding: 20px;
+    }
+
+    #auth-forms input[type="email"],
+    #auth-forms input[type="password"] {
+        padding: 10px;
+    }
+
+    #login-btn, #signup-btn {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    #transaction-details .transaction-item p {
+        flex: 1 1 100%; /* Stack items on small screens */
+    }
+}
+
+/* Utility classes (Bootstrap-like) */
+.d-flex { display: flex; }
+.justify-content-center { justify-content: center; }
+.align-items-center { align-items: center; }
+.mt-3 { margin-top: 1rem; }
+.mb-3 { margin-bottom: 1rem; }
+.p-3 { padding: 1rem; }
+.text-center { text-align: center; }
+.w-100 { width: 100%; }
+.form-group { margin-bottom: 1rem; } /* For labels and inputs */

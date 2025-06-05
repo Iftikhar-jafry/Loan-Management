@@ -5,8 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const addPersonModal = document.getElementById('add-person-modal');
     const newPersonNameInput = document.getElementById('new-person-name');
     const saveNewPersonBtn = document.getElementById('save-new-person-btn');
+
+    const deletePersonBtn=document.getElementById('delete-person-btn');
+    const deletePersonModal=document.getElementById('delete-person-modal');
+    const deletePersonLi=document.getElementById('delete-person-name');
+    const submitDeletion=document.getElementById('submit-Deletion-btn')
+    
     const closeButtons = document.querySelectorAll('.close-button');
     const contentHeading = document.getElementById('content-heading');
+    const balance_amount_display=document.getElementById("Balance-amount");
     const transactionDetails = document.getElementById('transaction-details');
     const personSummary = document.getElementById('person-summary');
     const currentPersonNameHeading = document.getElementById('current-person-name');
@@ -65,9 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (user) {
             // User is signed in.
             currentUser = user;
-            userDisplayEmail.textContent = currentUser.email;
-            authForms.style.display = 'none'; // Hide login/signup forms
-            userInfo.style.display = 'block'; // Show user info (logged in as...)
+            // userDisplayEmail.textContent = currentUser.email;
+            authSection.style.display = 'none'; // Hide login/signup forms
+            // userInfo.style.display = 'block'; // Show user info (logged in as...)
             appContainer.style.display = 'flex'; // Show the main app
             authSection.style.backgroundColor = '#d4edda'; // Greenish for logged in
             authError.textContent = ''; // Clear any previous errors
@@ -77,9 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // User is signed out.
             currentUser = null;
-            userDisplayEmail.textContent = '';
-            authForms.style.display = 'block'; // Show login/signup forms
-            userInfo.style.display = 'none'; // Hide user info
+            // userDisplayEmail.textContent = '';
+            authSection.style.display = 'block'; // Show login/signup forms
+            // userInfo.style.display = 'none'; // Hide user info
             appContainer.style.display = 'none'; // Hide the main app
             authSection.style.backgroundColor = '#e6f2ff'; // Default light blue
             // Clear local data if logged out
@@ -112,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Fetch persons belonging to the current user
             const personsSnapshot = await db.collection('persons').where('ownerId', '==', currentUser.uid).get();
             data.persons = personsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
+            console.log(data.persons)
             // Fetch transactions belonging to the current user
             const transactionsSnapshot = await db.collection('transactions').where('ownerId', '==', currentUser.uid).get();
             data.transactions = transactionsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -172,22 +179,62 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        transactionDetails.innerHTML = `
+            <table id="transaction-table" class="transaction-table">
+                        <thead>
+                            <tr>
+                                <th>Person</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Type</th>
+                                <th>Purpose</th>
+                                <th>Method</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transaction-tbody">
+                        </tbody>
+                    </table>
+        `; 
+        const transaction_tbody=document.getElementById("transaction-tbody");
+        let balance_amount=0
         sortedTransactions.forEach(transaction => {
             const person = data.persons.find(p => p.id === transaction.personId);
             const personName = person ? person.name : 'Unknown Person';
 
-            const div = document.createElement('div');
-            div.classList.add('transaction-item');
-            div.innerHTML = `
-                <p><strong>Person:</strong> ${personName}</p>
-                <p><strong>Date:</strong> ${transaction.date}</p>
-                <p><strong>Amount:</strong> $${transaction.amount.toFixed(2)}</p>
-                <p><strong>Type:</strong> ${transaction.type}</p>
-                <p><strong>Purpose:</strong> ${transaction.purpose || 'N/A'}</p>
-                <p><strong>Method:</strong> ${transaction.method}</p>
+            const tr = document.createElement('tr');
+            console.log(typeof(transaction.amount),transaction.amount)
+
+            tr.innerHTML = `
+                <td>${personName}</td>
+                <td>${transaction.date}</td>
+                <td>${transaction.amount.toFixed(2)}</td>
+                <td>${transaction.type}</td>
+                <td>${transaction.purpose || 'N/A'}</td>
+                <td>${transaction.method}</td>
             `;
-            transactionDetails.appendChild(div);
+
+            if(transaction.type==="Loan")
+            {
+                balance_amount=balance_amount+transaction.amount;
+            }
+            else
+            {
+                balance_amount=balance_amount-transaction.amount;
+            }
+
+            transaction_tbody.appendChild(tr);
         });
+
+        if(balance_amount>0)
+        {
+            balance_amount_display.innerHTML=`Net Owed By: <span>${balance_amount.toFixed(2)}</span>`;
+            balance_amount_display.className="balance-amount total-positive";
+        }
+        else
+        {
+            balance_amount_display.innerHTML=`Net Outstanding: <span>${balance_amount.toFixed(2)}</span>`
+            balance_amount_display.className="balance-amount total-negative";
+        }
     };
 
     const renderPersonTransactions = (personId) => {
@@ -324,6 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetLi = e.target.closest('.person-item');
         if (targetLi) {
             const personId = targetLi.dataset.personId;
+            console.log(typeof(personId))
             setActivePerson(personId);
         }
     });
@@ -493,6 +541,24 @@ document.addEventListener('DOMContentLoaded', () => {
             addTransactionModal.style.display = 'none';
             setActivePerson(currentView);
             alert('Transaction added successfully!');
+
+            const span=balance_amount_display.querySelector("span");
+            if(span)
+            {
+                let balance_amount=parseFloat(span.innerHTML);
+                balance_amount = newTransactionData.type==="Loan" ? balance_amount+newTransactionData.amount : balance_amount-newTransactionData.amount;
+                if(balance_amount>0)
+                {
+                    balance_amount_display.innerHTML=`Net Owed By: <span>${balance_amount.toFixed(2)}</span>`;
+                    balance_amount_display.className="balance-amount total-positive";
+                }
+                else
+                {
+                    balance_amount_display.innerHTML=`Net Outstanding: <span>${balance_amount.toFixed(2)}</span>`
+                    balance_amount_display.className="balance-amount total-negative";
+                }
+            }
+
         } catch (e) {
             console.error("Error adding transaction: ", e);
             authError.textContent = "Failed to add transaction. Please try again.";
