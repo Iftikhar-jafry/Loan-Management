@@ -11,6 +11,13 @@ body {
     color: #343a40; /* Darker text color */
 }
 
+.super{
+    display: flex;
+    justify-content:center;
+    width: 100%;
+    align-items: center;
+}
+
 .app-container {
     width: 1200px; /* Default for desktop */
     max-width: 100%; /* Ensure it doesn't overflow very wide screens */
@@ -711,47 +718,3 @@ body {
 .form-group {
     margin-bottom: 1rem;
 } /* For labels and inputs */
-
-
-@media (max-width: 768px) {
-    /* ... other rules ... */
-
-    .content {
-        padding: 15px; /* Keep this padding */
-        width: 100%; /* Ensure content takes full width of container */
-        box-sizing: border-box; /* Include padding in the width calculation */
-        /* If you had a fixed width: 800px; remove it here for mobile */
-    }
-
-    /* Crucial for tables on mobile */
-    #person-transactions-table,
-    #transaction-table {
-        display: block; /* Makes the table behave like a block element, enabling scroll */
-        overflow-x: auto; /* Enables horizontal scrolling */
-        -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
-        width: 100%; /* Ensure the *container* for the table uses 100% of available space */
-        max-width: 100%; /* Ensure it doesn't try to be wider than its container */
-        border-collapse: collapse; /* Keep this */
-        font-size: 0.85rem; /* Smaller font size for tables */
-    }
-
-    #person-transactions-table th,
-    #person-transactions-table td,
-    #transaction-table th,
-    #transaction-table td {
-        padding: 8px; /* Reduce padding in table cells */
-        white-space: nowrap; /* Keep text on one line so scrolling is needed */
-        /* IMPORTANT: If you want text to wrap *within* the cells, change this to `white-space: normal;`
-           But if you want scrolling, `nowrap` is usually better for tables. */
-    }
-
-    /* You might need to adjust column widths for very small screens */
-    #person-transactions-table th:nth-child(1), #person-transactions-table td:nth-child(1),
-    #transaction-table th:nth-child(1), #transaction-table td:nth-child(1) {
-        min-width: 80px; /* Example: ensure date column has a minimum width */
-    }
-    #person-transactions-table th:nth-child(4), #person-transactions-table td:nth-child(4),
-    #transaction-table th:nth-child(4), #transaction-table td:nth-child(4) {
-        min-width: 120px; /* Example: ensure purpose column has a minimum width */
-    }
-}

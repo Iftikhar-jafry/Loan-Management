@@ -13,112 +13,114 @@
 
 </head>
 <body>
-    <div id="auth-section" class="auth-section">
-        <div id="auth-forms">
-            <h2>Welcome to Your Loan Manager</h2>
-            <input type="email" id="auth-email" placeholder="Email">
-            <input type="password" id="auth-password" placeholder="Password">
-            <button id="login-btn">Login</button>
-            <button id="signup-btn">Sign Up</button>
-            <p id="auth-error" class="error-message"></p>
+    <div class="super">
+        <div id="auth-section" class="auth-section">
+            <div id="auth-forms">
+                <h2>Welcome to Your Loan Manager</h2>
+                <input type="email" id="auth-email" placeholder="Email">
+                <input type="password" id="auth-password" placeholder="Password">
+                <button id="login-btn">Login</button>
+                <button id="signup-btn">Sign Up</button>
+                <p id="auth-error" class="error-message"></p>
+            </div>
         </div>
-    </div>
 
-    <div id="app-container" style="display: none;">
-        <div class="container">
-            <aside class="sidebar">
-                <h2>Persons</h2>
-                <ul id="person-list">
-                    </ul>
-                <button id="add-new-person-btn">Add New Person</button>
-                <button id="delete-person">Delete Person</button>
-                    <button id="logout-btn">Logout</button>
-            </aside>
+        <div id="app-container" style="display: none;">
+            <div class="container">
+                <aside class="sidebar">
+                    <h2>Persons</h2>
+                    <ul id="person-list">
+                        </ul>
+                    <button id="add-new-person-btn">Add New Person</button>
+                    <button id="delete-person">Delete Person</button>
+                        <button id="logout-btn">Logout</button>
+                </aside>
 
-            <main class="content">
-                    <div class="content-header">
-                        <h2 id="content-heading">All Transactions</h2>
-                        <h3 id="Balance-amount"></h3>
+                <main class="content">
+                        <div class="content-header">
+                            <h2 id="content-heading">All Transactions</h2>
+                            <h3 id="Balance-amount"></h3>
+                        </div>
+                    <div id="transaction-details" class="table-responsive-wrapper">
+                        
                     </div>
-                <div id="transaction-details" class="table-responsive-wrapper">
-                    
-                </div>
-                <div id="person-summary" style="display: none;" class="table-responsive-wrapper">
-                    <h3 id="current-person-name"></h3>
-                    <table id="person-transactions-table" class="transaction-table">
-                        <thead>
-                            <tr>
-                                <th>Amount</th>
-                                <th>Purpose</th>
-                                <th>Type</th>
-                                <th>Method</th>
-                                <th>Date</th>
-                                <!-- <th>Edit</th>
-                                <th>Delete</th> -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            </tbody>
-                    </table>
-                    <p>Total: <span id="person-total"></span></p>
-                    <button id="reset-person-btn">Clear All Transactions for this Person</button>
-                </div>
-            </main>
+                    <div id="person-summary" style="display: none;" class="table-responsive-wrapper">
+                        <h3 id="current-person-name"></h3>
+                        <table id="person-transactions-table" class="transaction-table">
+                            <thead>
+                                <tr>
+                                    <th>Amount</th>
+                                    <th>Purpose</th>
+                                    <th>Type</th>
+                                    <th>Method</th>
+                                    <th>Date</th>
+                                    <!-- <th>Edit</th>
+                                    <th>Delete</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                </tbody>
+                        </table>
+                        <p>Total: <span id="person-total"></span></p>
+                        <button id="reset-person-btn">Clear All Transactions for this Person</button>
+                    </div>
+                </main>
+            </div>
         </div>
-    </div>
-    <div id="add-person-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2>Add New Person</h2>
-            <input type="text" id="new-person-name" placeholder="Enter person name">
-            <button id="save-new-person-btn">Add Person</button>
+        <div id="add-person-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Add New Person</h2>
+                <input type="text" id="new-person-name" placeholder="Enter person name">
+                <button id="save-new-person-btn">Add Person</button>
+            </div>
         </div>
-    </div>
 
-    <div id="delete-person-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2>Delete Person</h2>
-            <select id="delete-person-name" class="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                <option value="" disabled selected>Select a person to delete</option>
-            </select>
-            <button id="submit-Deletion-btn" class="btn-danger">Delete</button>
-            
+        <div id="delete-person-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Delete Person</h2>
+                <select id="delete-person-name" class="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="" disabled selected>Select a person to delete</option>
+                </select>
+                <button id="submit-Deletion-btn" class="btn-danger">Delete</button>
+                
+            </div>
         </div>
-    </div>
 
-    <div id="add-transaction-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2>Add New Transaction</h2>
-            <form id="transaction-form">
-                <label for="transaction-person-name">Person Name:</label>
-                <select id="transaction-person-name" required>
-                    </select>
+        <div id="add-transaction-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Add New Transaction</h2>
+                <form id="transaction-form">
+                    <label for="transaction-person-name">Person Name:</label>
+                    <select id="transaction-person-name" required>
+                        </select>
 
-                <label for="transaction-date">Date:</label>
-                <input type="date" id="transaction-date" required>
+                    <label for="transaction-date">Date:</label>
+                    <input type="date" id="transaction-date" required>
 
-                <label for="transaction-amount">Amount:</label>
-                <input type="number" id="transaction-amount" step="0.01" required>
+                    <label for="transaction-amount">Amount:</label>
+                    <input type="number" id="transaction-amount" step="0.01" required>
 
-                <label>Type:</label>
-                <input type="radio" id="type-loan" name="transaction-type" value="Loan" checked>
-                <label for="type-loan">Loan</label>
-                <input type="radio" id="type-return" name="transaction-type" value="Return">
-                <label for="type-return">Return</label>
+                    <label>Type:</label>
+                    <input type="radio" id="type-loan" name="transaction-type" value="Loan" checked>
+                    <label for="type-loan">Loan</label>
+                    <input type="radio" id="type-return" name="transaction-type" value="Return">
+                    <label for="type-return">Return</label>
 
-                <label for="transaction-purpose">Purpose:</label>
-                <textarea id="transaction-purpose" rows="3"></textarea>
+                    <label for="transaction-purpose">Purpose:</label>
+                    <textarea id="transaction-purpose" rows="3"></textarea>
 
-                <label>Method:</label>
-                <input type="radio" id="method-online" name="transaction-method" value="Online" checked>
-                <label for="method-online">Online</label>
-                <input type="radio" id="method-cash" name="transaction-method" value="Cash">
-                <label for="method-cash">Cash</label>
+                    <label>Method:</label>
+                    <input type="radio" id="method-online" name="transaction-method" value="Online" checked>
+                    <label for="method-online">Online</label>
+                    <input type="radio" id="method-cash" name="transaction-method" value="Cash">
+                    <label for="method-cash">Cash</label>
 
-                <button type="submit">Add Transaction</button>
-            </form>
+                    <button type="submit">Add Transaction</button>
+                </form>
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
