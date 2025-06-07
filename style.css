@@ -519,7 +519,7 @@ body {
     }
 
     .app-container {
-        width: 75%; /* Take full width of the viewport */
+        width: 600px; /* Take full width of the viewport */
     }
 
     .container {
