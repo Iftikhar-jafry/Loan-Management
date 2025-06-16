@@ -515,13 +515,12 @@ body {
 @media (max-width: 768px) {
     body {
         align-items: stretch; /* Stretch body content to fill height */
-        justify-content: center; /* Align content to the start on mobile */
+        justify-content: flex-start; /* Align content to the start on mobile */
+        justify-content:center;
     }
 
     .app-container {
-        /* display: flex; */
-        width: 100%; 
-        /* Take full width of the viewport */
+        width: 100%; /* Take full width of the viewport */
     }
 
     .container {

@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         contentHeading.textContent = person.name;
-        currentPersonNameHeading.textContent = person.name;
+        // currentPersonNameHeading.textContent = person.name;
         personTransactionsTableBody.innerHTML = ''; // Clear previous content
 
         const personTransactions = data.transactions.filter(t => t.personId === personId);
