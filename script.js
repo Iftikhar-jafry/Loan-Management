@@ -1,3 +1,6 @@
+import { auth, db } from '../JS-Files/fDatabase.js'; 
+import TagElements from '../JS-Files/getElement.js';
+console.log(TagElements.idAndClass.personList)
 document.addEventListener('DOMContentLoaded', () => {
     // --- Existing DOM Elements (keep these) ---
     const personList = document.getElementById('person-list');
@@ -6,14 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const newPersonNameInput = document.getElementById('new-person-name');
     const saveNewPersonBtn = document.getElementById('save-new-person-btn');
 
-    const deletePersonBtn=document.getElementById('delete-person-btn');
-    const deletePersonModal=document.getElementById('delete-person-modal');
-    const deletePersonLi=document.getElementById('delete-person-name');
-    const submitDeletion=document.getElementById('submit-Deletion-btn')
-    
+    const deletePersonBtn = document.getElementById('delete-person-btn');
+    const deletePersonModal = document.getElementById('delete-person-modal');
+    const deletePersonLi = document.getElementById('delete-person-name');
+    const submitDeletion = document.getElementById('submit-Deletion-btn');
+
     const closeButtons = document.querySelectorAll('.close-button');
     const contentHeading = document.getElementById('content-heading');
-    const balance_amount_display=document.getElementById("Balance-amount");
+    const balance_amount_display = document.getElementById("Balance-amount");
     const transactionDetails = document.getElementById('transaction-details');
     const personSummary = document.getElementById('person-summary');
     const currentPersonNameHeading = document.getElementById('current-person-name');
@@ -38,25 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const userInfo = document.getElementById('user-info');
     const userDisplayEmail = document.getElementById('user-display-email');
     const logoutBtn = document.getElementById('logout-btn');
-    // FIX: appContainer will now correctly reference the div in HTML
     const appContainer = document.getElementById('app-container'); // The main app div
 
-
-    // --- Firebase Initialization ---
-    // PASTE YOUR FIREBASE CONFIG HERE
-    const firebaseConfig = {
-        apiKey: "AIzaSyCfEnI90pQnGBTyh_ecw94EkRkawG9M2_Y",
-        authDomain: "personalloanmanagement-41554.firebaseapp.com",
-        projectId: "personalloanmanagement-41554",
-        storageBucket: "personalloanmanagement-41554.firebasestorage.app",
-        messagingSenderId: "112089002774",
-        appId: "1:112089002774:web:44c0d262a21ee04c4cd637"
-    };
-
-    // Make sure Firebase SDKs are loaded before this line
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth(); // Get Firebase Auth instance
-    const db = firebase.firestore();
 
     let currentUser = null; // Store the logged-in user
 
@@ -72,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (user) {
             // User is signed in.
             currentUser = user;
-            // userDisplayEmail.textContent = currentUser.email;
+            // userDisplayEmail.textContent = currentUser.email; // Uncomment if you have this element
             authSection.style.display = 'none'; // Hide login/signup forms
             // userInfo.style.display = 'block'; // Show user info (logged in as...)
             appContainer.style.display = 'flex'; // Show the main app
@@ -111,9 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clear previous data before fetching new user's data
         data.persons = [];
         data.transactions = [];
-        // No need to call renderPersonList() or renderAllTransactions() here,
-        // as they will be called after data is fetched or by setActivePerson.
-        // This avoids briefly showing empty lists while fetching.
 
         try {
             // Fetch persons belonging to the current user
@@ -131,8 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error("Error fetching data:", error);
             authError.textContent = "Error loading data. Please try again or re-login.";
-            // Consider logging out automatically if it's a permission error
-            // auth.signOut(); // Uncomment if you want to force logout on data fetch error
         }
     };
 
@@ -176,64 +157,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (sortedTransactions.length === 0) {
             transactionDetails.innerHTML = '<p>No transactions to display.</p>';
+            balance_amount_display.innerHTML = `Net Owed By: <span>$0.00</span>`;
+            balance_amount_display.className = "balance-amount total-positive";
             return;
         }
 
         transactionDetails.innerHTML = `
             <table id="transaction-table" class="transaction-table">
-                        <thead>
-                            <tr>
-                                <th>Person</th>
-                                <th>Date</th>
-                                <th>Amount</th>
-                                <th>Type</th>
-                                <th>Purpose</th>
-                                <th>Method</th>
-                            </tr>
-                        </thead>
-                        <tbody id="transaction-tbody">
-                        </tbody>
-                    </table>
-        `; 
-        const transaction_tbody=document.getElementById("transaction-tbody");
-        let balance_amount=0
+                <thead>
+                    <tr>
+                        <th>Person</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Purpose</th>
+                        <th>Method</th>
+                    </tr>
+                </thead>
+                <tbody id="transaction-tbody">
+                </tbody>
+            </table>
+        `;
+        const transaction_tbody = document.getElementById("transaction-tbody");
+        let balance_amount = 0
         sortedTransactions.forEach(transaction => {
             const person = data.persons.find(p => p.id === transaction.personId);
             const personName = person ? person.name : 'Unknown Person';
 
             const tr = document.createElement('tr');
-            console.log(typeof(transaction.amount),transaction.amount)
+            console.log(typeof (transaction.amount), transaction.amount)
 
             tr.innerHTML = `
                 <td>${personName}</td>
                 <td>${transaction.date}</td>
-                <td>${transaction.amount.toFixed(2)}</td>
+                <td>$${transaction.amount.toFixed(2)}</td>
                 <td>${transaction.type}</td>
                 <td>${transaction.purpose || 'N/A'}</td>
                 <td>${transaction.method}</td>
             `;
 
-            if(transaction.type==="Loan")
-            {
-                balance_amount=balance_amount+transaction.amount;
+            if (transaction.type === "Loan") {
+                balance_amount = balance_amount + transaction.amount;
             }
-            else
-            {
-                balance_amount=balance_amount-transaction.amount;
+            else {
+                balance_amount = balance_amount - transaction.amount;
             }
 
             transaction_tbody.appendChild(tr);
         });
 
-        if(balance_amount>0)
-        {
-            balance_amount_display.innerHTML=`Net Owed By: <span>${balance_amount.toFixed(2)}</span>`;
-            balance_amount_display.className="balance-amount total-positive";
+        if (balance_amount > 0) {
+            balance_amount_display.innerHTML = `Net Owed By: <span>$${balance_amount.toFixed(2)}</span>`;
+            balance_amount_display.className = "balance-amount total-positive";
         }
-        else
-        {
-            balance_amount_display.innerHTML=`Net Outstanding: <span>${balance_amount.toFixed(2)}</span>`
-            balance_amount_display.className="balance-amount total-negative";
+        else {
+            balance_amount_display.innerHTML = `Net Outstanding: <span>$${balance_amount.toFixed(2)}</span>`
+            balance_amount_display.className = "balance-amount total-negative";
         }
     };
 
@@ -243,14 +222,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const person = data.persons.find(p => p.id === personId);
         if (!person) {
-            // This case might happen if a person was deleted but its transactions are still in local data,
-            // or if the `personId` is somehow invalid. Refreshing to 'all' is a safe fallback.
             setActivePerson('all');
             return;
         }
 
         contentHeading.textContent = person.name;
-        // currentPersonNameHeading.textContent = person.name;
         personTransactionsTableBody.innerHTML = ''; // Clear previous content
 
         const personTransactions = data.transactions.filter(t => t.personId === personId);
@@ -262,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sortedPersonTransactions.length === 0) {
             const row = personTransactionsTableBody.insertRow();
             const cell = row.insertCell();
-            cell.colSpan = 4;
+            cell.colSpan = 5; // Adjusted colspan to match 5 columns (Amount, Purpose, Type, Method, Date)
             cell.textContent = 'No transactions for this person.';
             cell.style.textAlign = 'center';
         } else {
@@ -371,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetLi = e.target.closest('.person-item');
         if (targetLi) {
             const personId = targetLi.dataset.personId;
-            console.log(typeof(personId))
+            console.log(typeof (personId))
             setActivePerson(personId);
         }
     });
@@ -381,7 +357,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Please login to add a new person.');
             return;
         }
-        // This line will no longer throw the TypeError now that app-container exists
         addPersonModal.style.display = 'flex';
         newPersonNameInput.value = '';
         newPersonNameInput.focus();
@@ -391,6 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => {
             addPersonModal.style.display = 'none';
             addTransactionModal.style.display = 'none';
+            deletePersonModal.style.display = 'none'; // Added for delete modal
         });
     });
 
@@ -400,6 +376,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (event.target == addTransactionModal) {
             addTransactionModal.style.display = 'none';
+        }
+        if (event.target == deletePersonModal) { // Added for delete modal
+            deletePersonModal.style.display = 'none';
         }
     });
 
@@ -542,26 +521,87 @@ document.addEventListener('DOMContentLoaded', () => {
             setActivePerson(currentView);
             alert('Transaction added successfully!');
 
-            const span=balance_amount_display.querySelector("span");
-            if(span)
-            {
-                let balance_amount=parseFloat(span.innerHTML);
-                balance_amount = newTransactionData.type==="Loan" ? balance_amount+newTransactionData.amount : balance_amount-newTransactionData.amount;
-                if(balance_amount>0)
-                {
-                    balance_amount_display.innerHTML=`Net Owed By: <span>${balance_amount.toFixed(2)}</span>`;
-                    balance_amount_display.className="balance-amount total-positive";
+            const span = balance_amount_display.querySelector("span");
+            if (span) {
+                let balance_amount = parseFloat(span.innerHTML.replace('$', '')); // Remove $ before parsing
+                balance_amount = newTransactionData.type === "Loan" ? balance_amount + newTransactionData.amount : balance_amount - newTransactionData.amount;
+
+                if (balance_amount > 0) {
+                    balance_amount_display.innerHTML = `Net Owed By: <span>$${balance_amount.toFixed(2)}</span>`;
+                    balance_amount_display.className = "balance-amount total-positive";
                 }
-                else
-                {
-                    balance_amount_display.innerHTML=`Net Outstanding: <span>${balance_amount.toFixed(2)}</span>`
-                    balance_amount_display.className="balance-amount total-negative";
+                else {
+                    balance_amount_display.innerHTML = `Net Outstanding: <span>$${balance_amount.toFixed(2)}</span>`
+                    balance_amount_display.className = "balance-amount total-negative";
                 }
             }
 
         } catch (e) {
             console.error("Error adding transaction: ", e);
             authError.textContent = "Failed to add transaction. Please try again.";
+        }
+    });
+
+    // --- Delete Person Functionality ---
+    deletePersonBtn.addEventListener('click', () => {
+        if (!currentUser) {
+            alert('You must be logged in to delete a person.');
+            return;
+        }
+
+        const currentSelectedPersonId = currentView;
+        if (currentSelectedPersonId === 'all' || !currentSelectedPersonId) {
+            alert('Please select a specific person to delete.');
+            return;
+        }
+
+        const personToDelete = data.persons.find(p => p.id === currentSelectedPersonId);
+
+        if (!personToDelete) {
+            alert('Selected person not found.');
+            return;
+        }
+
+        deletePersonLi.textContent = personToDelete.name;
+        deletePersonModal.style.display = 'flex';
+    });
+
+    submitDeletion.addEventListener('click', async () => {
+        if (!currentUser) {
+            alert('You must be logged in to delete a person.');
+            return;
+        }
+
+        const personIdToDelete = currentView;
+
+        try {
+            // Delete all transactions associated with the person and owned by the user
+            const transactionsSnapshot = await db.collection('transactions')
+                .where('personId', '==', personIdToDelete)
+                .where('ownerId', '==', currentUser.uid)
+                .get();
+
+            const batch = db.batch();
+            transactionsSnapshot.docs.forEach(doc => {
+                batch.delete(doc.ref);
+            });
+
+            // Delete the person from Firestore
+            await db.collection('persons').doc(personIdToDelete).delete();
+
+            await batch.commit(); // Commit all deletions
+
+            // Update local data by filtering out the deleted person and their transactions
+            data.persons = data.persons.filter(p => p.id !== personIdToDelete);
+            data.transactions = data.transactions.filter(t => t.personId !== personIdToDelete);
+
+            deletePersonModal.style.display = 'none';
+            alert(`${deletePersonLi.textContent} and all their transactions have been successfully deleted.`);
+            setActivePerson('all'); // Go back to "All Transactions" view
+            renderPersonList(); // Re-render the person list
+        } catch (error) {
+            console.error("Error deleting person and transactions:", error);
+            authError.textContent = "Failed to delete person and transactions: " + error.message;
         }
     });
 
